@@ -1,21 +1,13 @@
 version: 2.1
 
-orbs:
-  circleci/gradle@3.0.0
-
 jobs:
   build:
     executor: circleci/gradle/default
 
     steps:
       - checkout
-
-      - circleci/gradle/run:
-          app_src_directory: .
-          cache_key: v1
-          command: build
-          deps_checksum_file: build.gradle
-          wrapper_checksum_file: gradlew
+      - circleci/gradle/build:
+          app_src_directory: ./
           
 workflows:
   version: 2
