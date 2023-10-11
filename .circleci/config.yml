@@ -1,24 +1,22 @@
 version: 2.1
-
+setup: true
 orbs:
-  circleci/gradle: 3.0.0
+  orb-tools: circleci/orb-tools@11.1
+  shellcheck: circleci/shellcheck@3.1
 
-jobs:
-  build:
-    executor: circleci/gradle/default
+filters: &filters
+  tags:
+    only: /.*/
 
-    steps:
-      - checkout
-
-      - circleci/gradle/run:
-          app_src_directory: .
-          cache_key: v1
-          command: build
-          deps_checksum_file: build.gradle
-          wrapper_checksum_file: gradlew
-          
 workflows:
-  version: 2
-  build:
+  lint-pack:
     jobs:
-      - build
+      - orb-tools/lint:
+          filters: *filters
+      - orb-tools/pack:
+          filters: *filters
+      - orb-tools/review:
+          filters: *filters
+      - shellcheck/check:
+          exclude: SC2148,SC2038,SC2086,SC2002,SC2016
+          filters: *filters
