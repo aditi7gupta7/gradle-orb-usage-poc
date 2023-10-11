@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  circleci/gradle: 3.0.0
+
 jobs:
   build:
     executor: circleci/gradle/default
@@ -13,6 +16,7 @@ jobs:
           command: build
           deps_checksum_file: build.gradle
           wrapper_checksum_file: gradlew
+          
 workflows:
   version: 2
   build:
