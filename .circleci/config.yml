@@ -20,3 +20,18 @@ workflows:
       - shellcheck/check:
           exclude: SC2148,SC2038,SC2086,SC2002,SC2016
           filters: *filters
+      - orb-tools/publish:
+          orb-name: circleci/gradle
+          vcs-type: << pipeline.project.type >>
+          requires:
+            [orb-tools/lint, orb-tools/review, orb-tools/pack, shellcheck/check]
+          # Use a context to hold your publishing token.
+          context: orb-publisher
+          filters: *filters
+          github-token: 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
+      # Triggers the next workflow in the Orb Development Kit.
+      - orb-tools/continue:
+          pipeline-number: << pipeline.number >>
+          vcs-type: << pipeline.project.type >>
+          requires: [orb-tools/publish]
+          filters: *filters
