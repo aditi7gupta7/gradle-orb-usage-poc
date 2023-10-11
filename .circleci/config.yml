@@ -28,7 +28,7 @@ workflows:
           # Use a context to hold your publishing token.
           context: orb-publisher
           filters: *filters
-          github-token: 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
+          github-token: GHI_TOKEN
       # Triggers the next workflow in the Orb Development Kit.
       - orb-tools/continue:
           pipeline-number: << pipeline.number >>
